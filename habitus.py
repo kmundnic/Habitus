@@ -1,13 +1,6 @@
 import rumps
 import data_collector
-from time import sleep
-
-import signal
 from threading import Thread
-
-# @clicked('Testing')
-# def tester(sender):
-#     sender.state = not sender.state
 
 
 class Habitus(rumps.App):
