@@ -5,7 +5,7 @@ from threading import Thread
 
 class Habitus(rumps.App):
     def __init__(self):
-        super(Habitus, self).__init__(type(self).__name__, menu=['On'])
+        super(Habitus, self).__init__(type(self).__name__, menu=['On', None])
         rumps.debug_mode(False)
 
     @rumps.clicked('On')
