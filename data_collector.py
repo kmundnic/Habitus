@@ -4,7 +4,11 @@ import time
 import datetime
 import urlparse
 import signal
+import sys
 
+# This variable is used to control the data retrieving loop inside run()
+# function.
+RETRIEVING_DATA = True
 
 # Define AppleScript scripts to retrieve URL information from Safari or Chrome.
 # AppleScript offers a direct interface in order to obtain the complete URL of
@@ -16,6 +20,8 @@ SAFARI_APPLE_SCRIPT = '''tell application "Safari"
 CHROME_APPLE_SCRIPT = '''tell application "Google Chrome"
                            URL of active tab of window 1
                          end tell'''
+# Open log
+log = open('log.txt', 'w')
 
 
 def run_apple_script(script):
@@ -32,8 +38,9 @@ def run_apple_script(script):
 
 def retrieve_web_page(active_app_name):
     """
-  Receives the active application name. If the currently open application is either Safari or Google Chrome, the URL of
-  the currently open web page is returned.
+  Receives the active application name. If the currently open application is
+  either Safari or Google Chrome, the URL of the currently open web page is
+  returned.
     """
     if "Safari" == active_app_name:
         return run_apple_script(SAFARI_APPLE_SCRIPT)
@@ -44,21 +51,21 @@ def retrieve_web_page(active_app_name):
     return active_app_name
 
 
-def set_signal_handler(log):
+def set_signal_handler():
     def signal_handler(signal, frame):
-        log.close()
-        # sys.exit(0)
+        stop()
+        sys.exit(0)
 
     signal.signal(signal.SIGINT, signal_handler)
 
 
 def run():
-    # Open Log
-    log = open('log.txt', 'w')
-    set_signal_handler(log)
+    global RETRIEVING_DATA
+    RETRIEVING_DATA = True
 
-    while True:
-        active_app_name = NSWorkspace.sharedWorkspace().activeApplication()['NSApplicationName']
+    while RETRIEVING_DATA:
+        active_app_name = NSWorkspace.sharedWorkspace(). \
+            activeApplication()['NSApplicationName']
 
         active_app_name = retrieve_web_page(active_app_name)
 
@@ -68,11 +75,10 @@ def run():
         log.write("{} {}\n".format(current_time, active_app_name))
         time.sleep(1)
 
+
 def stop():
     # Close log
-    p = Popen(['echo'], "Closing log...")
-    p.send_signal(signal.SIGINT)
-
-if __name__ == "__main__":
-    run()
-
+    global RETRIEVING_DATA
+    RETRIEVING_DATA = False
+    # global log
+    # log.close()
