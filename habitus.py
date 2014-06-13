@@ -19,7 +19,3 @@ class Habitus(rumps.App):
             sender.title = 'On'
             data_collector_instance.stop()
             # thread_data_collector.join()
-
-
-if __name__ == "__main__":
-    Habitus().run()
