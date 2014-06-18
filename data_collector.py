@@ -6,6 +6,9 @@ import urlparse
 import signal
 import sys
 
+reload(sys)
+sys.setdefaultencoding("utf-8")
+
 # This variable is used to control the data retrieving loop inside run()
 # function.
 RETRIEVING_DATA = True
@@ -72,7 +75,17 @@ def run():
         current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         print current_time, active_app_name
-        log.write("{} {}\n".format(current_time, active_app_name))
+
+        try:
+            log.write("{} {}\n".format(current_time, active_app_name))
+        except UnicodeEncodeError:
+            # To prevent encoding issues in the log regarding encoding of
+            # non-ascii characters, active_app_name is converted from ascii to
+            # utf-8 before it is written into the log file. This works
+            # successfully with uTorrent app name.
+            active_app_name = (active_app_name.decode('ascii',
+                                                      'ignore')).encode('utf-8')
+            log.write("{} {}\n".format(current_time, active_app_name))
         time.sleep(1)
 
 
