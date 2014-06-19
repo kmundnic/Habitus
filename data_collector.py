@@ -5,9 +5,8 @@ import datetime
 import urlparse
 import signal
 import sys
+import os
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
 # This variable is used to control the data retrieving loop inside run()
 # function.
@@ -23,8 +22,13 @@ SAFARI_APPLE_SCRIPT = '''tell application "Safari"
 CHROME_APPLE_SCRIPT = '''tell application "Google Chrome"
                            URL of active tab of window 1
                          end tell'''
-# Open log
-log = open('log.txt', 'w')
+
+# Open log. Logs are saved using the date of the data. Time information is
+# included inside the log.
+current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+user = os.getlogin()
+log_name = "{}_{}.txt".format(user, current_date)
+log = open(log_name, 'w')
 
 
 def run_apple_script(script):
@@ -44,6 +48,7 @@ def retrieve_web_page(active_app_name):
   Receives the active application name. If the currently open application is
   either Safari or Google Chrome, the URL of the currently open web page is
   returned.
+    :rtype : String
     """
     if "Safari" == active_app_name:
         return run_apple_script(SAFARI_APPLE_SCRIPT)
@@ -72,19 +77,17 @@ def run():
 
         active_app_name = retrieve_web_page(active_app_name)
 
-        current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        current_time = datetime.datetime.now().strftime("%H:%M:%S")
 
         print current_time, active_app_name
 
         try:
             log.write("{} {}\n".format(current_time, active_app_name))
         except UnicodeEncodeError:
-            # To prevent encoding issues in the log regarding encoding of
-            # non-ascii characters, active_app_name is converted from ascii to
-            # utf-8 before it is written into the log file. This works
-            # successfully with uTorrent app name.
-            active_app_name = (active_app_name.decode('ascii',
-                                                      'ignore')).encode('utf-8')
+            # active_app_name is a pyobjc_unicode type. For non-ascii characters
+            # it is necessary to convert encode into UTF-8 before saving them
+            # into a log file.
+            active_app_name = active_app_name.encode('utf-8')
             log.write("{} {}\n".format(current_time, active_app_name))
         time.sleep(1)
 
