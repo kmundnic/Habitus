@@ -5,7 +5,9 @@ from threading import Thread
 
 class Habitus(rumps.App):
     def __init__(self):
-        super(Habitus, self).__init__(type(self).__name__, menu=['On', None])
+        super(Habitus, self).__init__(type(self).__name__, menu=['On',
+                                                                 'Send info',
+                                                                 None])
         rumps.debug_mode(False)
 
     @rumps.clicked('On')
@@ -19,3 +21,9 @@ class Habitus(rumps.App):
             sender.title = 'On'
             data_collector_instance.stop()
             # thread_data_collector.join()
+
+
+    @rumps.clicked('Send info')
+    def button(self, sender):
+        # Send e-mail with info
+        pass
