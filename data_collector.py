@@ -5,7 +5,7 @@ import datetime
 import urlparse
 import signal
 import sys
-import log
+from log import Log
 
 
 # This variable is used to control the data retrieving loop inside run()
@@ -56,9 +56,9 @@ def run():
     global RETRIEVING_DATA
     RETRIEVING_DATA = True
 
-    # log_file is opened using the log module. It is opened using the append
+    # log is opened using the log module. It is opened using the append
     # ('a') keyword, so no information is overwritten
-    log_file = log.open_log()
+    log = Log()
 
     while RETRIEVING_DATA:
         active_app_name = NSWorkspace.sharedWorkspace(). \
@@ -71,17 +71,16 @@ def run():
         print current_time, active_app_name
 
         try:
-            log_file.write("{} {}\n".format(current_time, active_app_name))
+            log.file.write("{} {}\n".format(current_time, active_app_name))
         except UnicodeEncodeError:
             # active_app_name is a pyobjc_unicode type. For non-ascii characters
             # it is necessary to convert encode into UTF-8 before saving them
             # into a log file.
             active_app_name = active_app_name.encode('utf-8')
-            assert isinstance(log_file, file)
-            log_file.write("{} {}\n".format(current_time, active_app_name))
+            log.file.write("{} {}\n".format(current_time, active_app_name))
         time.sleep(1)
 
-    log_file.close()
+    log.close_log()
 
 
 def stop():
