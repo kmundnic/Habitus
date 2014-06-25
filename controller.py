@@ -1,8 +1,6 @@
 from threading import Thread
 import rumps
 import gmail
-import os
-import datetime
 import data_collector
 from log import Log
 
@@ -17,11 +15,6 @@ class Habitus(rumps.App):
         # ('a') keyword, so no information is overwritten
         self.log = Log()
 
-        # Send info details
-        self.to = "habitus.data@gmail.com"
-        self.subject = "Data from " + self.log.user
-        self.text = self.log.user + " " + self.log.current_date
-
     @rumps.clicked('On')
     def button(self, sender):
         # Create thread for data collection
@@ -29,12 +22,13 @@ class Habitus(rumps.App):
         thread_data_collector = Thread(target=data_collector_instance.run,
                                        args=(self.log, ))
 
-        # Create thread for sending info
+        # Create thread for sending log
         thread_send_log = Thread(target=gmail.send_email,
-                                 args=(self.to,
-                                       self.subject,
-                                       self.text,
+                                 args=("habitus.data@gmail.com",
+                                       "Data from " + self.log.user,
+                                       "",  # E-mail text
                                        self.log.file_name))
+
         if sender.title == 'On':
             sender.title = 'Off'
             thread_data_collector.start()
@@ -42,5 +36,3 @@ class Habitus(rumps.App):
             sender.title = 'On'
             data_collector_instance.stop()
             thread_send_log.start()
-            # thread_send_log.join()
-

@@ -43,13 +43,18 @@ class Log:
 
         return self.file
 
+    def reopen_log(self):
+        if not self.is_open:
+            self.file = open(self.file_name, 'a')
+            self.is_open = True
+
     def close_log(self):
         """
         Checks if log is open and then closes the file.
         :param log: txt file
         :return: None
         """
-        if not self.is_open:
+        if self.is_open:
             self.file.close()
             self.is_open = False
 
