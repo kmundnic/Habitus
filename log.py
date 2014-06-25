@@ -4,11 +4,11 @@ import os
 
 class Log:
     def __init__(self):
-        self.directory_name = "logs/"
+        self.directory_name = "logs"
         self.user = os.getlogin()
         self.current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         self.is_open = False
-        self.name = None
+        self.file_name = None
         self.file = self.open_log()
 
     def create_directory(self):
@@ -33,13 +33,12 @@ class Log:
         self.create_directory()
 
         # Get current date and user login name to create file
-
-        self.name = "{}/{}_{}.txt".format(self.directory_name,
-                                         self.user,
-                                         self.current_date)
+        self.file_name = "{}/{}_{}.txt".format(self.directory_name,
+                                               self.user,
+                                               self.current_date)
 
         # Open log and set self.is_open to true
-        self.file = open(self.name, 'a')
+        self.file = open(self.file_name, 'a')
         self.is_open = True
 
         return self.file

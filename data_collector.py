@@ -3,9 +3,6 @@ from subprocess import Popen, PIPE
 import time
 import datetime
 import urlparse
-import signal
-import sys
-from log import Log
 
 
 # This variable is used to control the data retrieving loop inside run()
@@ -52,13 +49,9 @@ def retrieve_web_page(active_app_name):
     return active_app_name
 
 
-def run():
+def run(log):
     global RETRIEVING_DATA
     RETRIEVING_DATA = True
-
-    # log is opened using the log module. It is opened using the append
-    # ('a') keyword, so no information is overwritten
-    log = Log()
 
     while RETRIEVING_DATA:
         active_app_name = NSWorkspace.sharedWorkspace(). \
