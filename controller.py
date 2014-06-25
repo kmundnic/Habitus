@@ -1,12 +1,12 @@
-import rumps
-import data_collector
 from threading import Thread
+import rumps
+import gmail
+import data_collector
 
 
 class Habitus(rumps.App):
     def __init__(self):
         super(Habitus, self).__init__(type(self).__name__, menu=['On',
-                                                                 'Send info',
                                                                  None])
         rumps.debug_mode(False)
 
@@ -20,10 +20,7 @@ class Habitus(rumps.App):
         else:
             sender.title = 'On'
             data_collector_instance.stop()
-            # thread_data_collector.join()
+            gmail.send_email("habitus.data@gmail.com",
+                             "Hello from python!",
+                             "This is a email sent with python")
 
-
-    @rumps.clicked('Send info')
-    def button(self, sender):
-        # Send e-mail with info
-        pass
