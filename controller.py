@@ -7,8 +7,8 @@ from log import Log
 
 class Habitus(rumps.App):
     def __init__(self):
-        super(Habitus, self).__init__(type(self).__name__, menu=['On',
-                                                                 None])
+        super(Habitus, self).__init__("H")
+        self.menu = ['On', None]
         rumps.debug_mode(False)
 
         # log is opened using the log module. It is opened using the append
