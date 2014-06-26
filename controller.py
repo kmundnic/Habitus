@@ -7,7 +7,7 @@ from log import Log
 
 class Habitus(rumps.App):
     def __init__(self):
-        super(Habitus, self).__init__("H")
+        super(Habitus, self).__init__("Habitus", icon="images/icon-bw.png")
         self.menu = ['On', None]
         rumps.debug_mode(False)
 
