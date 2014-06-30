@@ -35,4 +35,5 @@ class Habitus(rumps.App):
         else:
             sender.title = 'On'
             data_collector_instance.stop()
+            self.log.close_log()
             thread_send_log.start()

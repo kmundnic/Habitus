@@ -77,8 +77,6 @@ def run(log):
             log.file.write("{} {}\n".format(current_datetime, active_app_name))
         time.sleep(1)
 
-    log.close_log()
-
 
 def stop():
     # Close log
