@@ -33,9 +33,8 @@ class Log:
         self.create_directory()
 
         # Get current date and user login name to create file
-        self.file_name = "{}/{}_{}.txt".format(self.directory_name,
-                                               self.user,
-                                               self.current_date)
+        self.file_name = "{}/{}.txt".format(self.directory_name,
+                                               self.user)
 
         # Open log and set self.is_open to true
         self.file = open(self.file_name, 'a')
