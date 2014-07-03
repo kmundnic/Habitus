@@ -31,14 +31,18 @@ def run_apple_script(script):
     p = Popen(['osascript'], stdin=PIPE, stdout=PIPE, stderr=PIPE)
     standard_out, standard_error = p.communicate(script)
     url = urlparse.urlparse(standard_out)
-    return url.netloc
 
+    if url.netloc != "":
+        return url.netloc
+    else:
+        return "newtab"
 
 def retrieve_web_page(active_app_name):
     """
   Receives the active application name. If the currently open application is
   either Safari or Google Chrome, the URL of the currently open web page is
-  returned.
+  returned. If the application is any other web browser, then the name of the
+  browser is returned.
     :rtype : String
     """
     if "Safari" == active_app_name:
