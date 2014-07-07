@@ -67,18 +67,23 @@ def run(log):
 
         active_app_name = retrieve_web_page(active_app_name)
 
-        current_datetime = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        current_time = datetime.datetime.now().strftime("%H:%M:%S")
 
-        print current_datetime, active_app_name
+        print current_date, current_time, active_app_name # debugging purposes
 
         try:
-            log.file.write("{} {}\n".format(current_datetime, active_app_name))
+            log.file.write("{},{},{}\n".format(current_date,
+                                               current_time,
+                                               active_app_name))
         except UnicodeEncodeError:
             # active_app_name is a pyobjc_unicode type. For non-ascii characters
             # it is necessary to convert encode into UTF-8 before saving them
             # into a log file.
             active_app_name = active_app_name.encode('utf-8')
-            log.file.write("{} {}\n".format(current_datetime, active_app_name))
+            log.file.write("{},{},{}\n".format(current_date,
+                                               current_time,
+                                               active_app_name))
         time.sleep(1)
 
 

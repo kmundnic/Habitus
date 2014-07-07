@@ -27,13 +27,13 @@ class Log:
         Log is opened with the keyword letter 'a' for append. This is, the
         pointer points at the end of the file when the log is opened. This way,
         information is not overwritten.
-        :return: file
+        :return: csv file
         """
         # Create directory named "logs"
         self.create_directory()
 
         # Get current date and user login name to create file
-        self.file_name = "{}/{}.txt".format(self.directory_name,
+        self.file_name = "{}/{}.csv".format(self.directory_name,
                                                self.user)
 
         # Open log and set self.is_open to true
@@ -56,4 +56,3 @@ class Log:
         if self.is_open:
             self.file.close()
             self.is_open = False
-
