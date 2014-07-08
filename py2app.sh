@@ -1,3 +1,6 @@
+# Note: This file MUST be run without sudo mode. If run in sudo mode, build and
+# dist folders cannot be accessed by the application and there are not enough
+# permissions to run the bundled application.
 rm -rf build dist
 rm setup.py
 py2applet --make-setup Habitus.py
