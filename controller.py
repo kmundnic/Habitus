@@ -26,7 +26,7 @@ class Habitus(rumps.App):
         thread_send_log = Thread(target=gmail.send_email,
                                  args=("habitus.data@gmail.com",
                                        "Data from " + self.log.user,
-                                       "",  # E-mail text
+                                       self.log.user,  # Used by ifttt.com
                                        self.log.file_name))
 
         if sender.title == 'On':

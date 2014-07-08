@@ -27,24 +27,28 @@ class Log:
         Log is opened with the keyword letter 'a' for append. This is, the
         pointer points at the end of the file when the log is opened. This way,
         information is not overwritten.
+        More info on file opening options available on http://stackoverflow.com
+        /questions/1466000
+        /python-open-built-in-function-difference-between-modes-a-a-w-w-and-r
         :return: csv file
         """
         # Create directory named "logs"
         self.create_directory()
 
         # Get current date and user login name to create file
-        self.file_name = "{}/{}.csv".format(self.directory_name,
-                                               self.user)
+        self.file_name = "{}/{}.csv".format(self.directory_name, self.user)
 
         # Open log and set self.is_open to true
-        self.file = open(self.file_name, 'a')
+        # self.file = open(self.file_name, 'a')
+        self.file = open(self.file_name, 'w')
         self.is_open = True
 
         return self.file
 
     def reopen_log(self):
         if not self.is_open:
-            self.file = open(self.file_name, 'a')
+            # self.file = open(self.file_name, 'a')
+            self.file = open(self.file_name, 'w')
             self.is_open = True
 
     def close_log(self):
