@@ -1,5 +1,5 @@
 import rumps
-import data_retriever
+from data_retriever import DataRetriever
 from log import Log
 
 
@@ -10,10 +10,11 @@ class Habitus(rumps.App):
         # log is opened using the log module. It is opened using the append
         # ('a') keyword, so no information is overwritten
         self.log = Log()
+        self.data_retriever = DataRetriever()
 
     @staticmethod
     def retrieve_data_callback(self, sender):
-        print data_retriever.retrieve_active_app_name()
+        print self.data_retriever.retrieve_active_app_name()
 
     @rumps.clicked('Start')
     def start_data_collection_timer(self):
