@@ -3,6 +3,8 @@ from data_retriever import DataRetriever
 from data_sender import DataSender
 
 
+SEND_DATA_BETWEEN_SECONDS = 900
+
 data_retriever = DataRetriever()
 data_sender = DataSender()
 
@@ -11,7 +13,7 @@ def retrieve_data_callback(_):
     print data_retriever.retrieve_active_app_name()
 
 
-@rumps.timer(10)  # Data is sent every 15min
+@rumps.timer(SEND_DATA_BETWEEN_SECONDS)  # Data is sent every 15min
 def send_data_callback(_):
     if retrieve_data_timer.is_alive():
         retrieve_data_timer.stop()
