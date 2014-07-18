@@ -12,16 +12,16 @@ class Habitus(rumps.App):
         self.log = Log()
 
     @staticmethod
-    def callback_function(self, sender):
+    def retrieve_data_callback(self, sender):
         print dc.retrieve_active_app_name()
 
     @rumps.clicked('Start')
     def start_data_collection_timer(self):
-        data_collection_timer.start()
+        retrieve_data_timer.start()
 
     @rumps.clicked('Stop')
     def stop_data_collection_timer(self):
-        data_collection_timer.stop()
+        retrieve_data_timer.stop()
 
-data_collection_timer = rumps.Timer(Habitus.callback_function,
-                                    interval=1)
+retrieve_data_timer = rumps.Timer(Habitus.retrieve_data_callback,
+                                  interval=1)  # 1[s] interval

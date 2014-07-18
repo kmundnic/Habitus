@@ -3,12 +3,7 @@ from subprocess import Popen, PIPE
 import time
 import datetime
 import urlparse
-from log import Log
 
-
-# This variable is used to control the data retrieving loop inside run()
-# function.
-RETRIEVING_DATA = True
 
 # Define AppleScript scripts to retrieve URL information from Safari or Chrome.
 # AppleScript offers a direct interface in order to obtain the complete URL of
@@ -36,6 +31,7 @@ def run_apple_script(script):
         return url.netloc
     else:
         return "newtab"
+
 
 def retrieve_web_page(active_app_name):
     """
@@ -87,15 +83,9 @@ def run(log):
         time.sleep(1)
 
 
-def stop():
-    # Close log
-    global RETRIEVING_DATA
-    RETRIEVING_DATA = False
-
-
 def retrieve_active_app_name():
     active_app_name = NSWorkspace.sharedWorkspace(). \
-            activeApplication()['NSApplicationName']
+        activeApplication()['NSApplicationName']
 
     active_app_name = retrieve_web_page(active_app_name)
 
