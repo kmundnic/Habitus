@@ -26,9 +26,8 @@ class Log:
         """
         Open log. Checks if directory is created. If not, it is created. Returns
         the log file.
-        Log is opened with the keyword letter 'a' for append. This is, the
-        pointer points at the end of the file when the log is opened. This way,
-        information is not overwritten.
+        Log is opened with the keyword letter 'w' to overwrite data and only
+        send small chunks of information.
         More info on file opening options available on http://stackoverflow.com
         /questions/1466000
         /python-open-built-in-function-difference-between-modes-a-a-w-w-and-r
@@ -43,7 +42,6 @@ class Log:
                                                self.current_datetime)
 
         # Open log and set self.is_open to true
-        # self.file = open(self.file_name, 'a')
         self.file = open(self.file_name, 'w')
         self.is_open = True
 

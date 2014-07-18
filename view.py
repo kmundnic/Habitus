@@ -1,6 +1,4 @@
 import rumps
-from data_retriever import DataRetriever
-from data_sender import DataSender
 import controller
 
 
