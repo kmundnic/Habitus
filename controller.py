@@ -1,5 +1,5 @@
 import rumps
-import data_collector as dc
+import data_retriever
 from log import Log
 
 
@@ -13,7 +13,7 @@ class Habitus(rumps.App):
 
     @staticmethod
     def retrieve_data_callback(self, sender):
-        print dc.retrieve_active_app_name()
+        print data_retriever.retrieve_active_app_name()
 
     @rumps.clicked('Start')
     def start_data_collection_timer(self):
