@@ -64,4 +64,6 @@ class DataRetriever():
         current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         current_time = datetime.datetime.now().strftime("%H:%M:%S")
 
-        return current_date, current_time, active_app_name
+        data_string = current_date + "," + current_time + "," + active_app_name
+        self.data.append(data_string)
+        return current_date + "," + current_time + "," + active_app_name
