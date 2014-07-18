@@ -63,7 +63,7 @@ def run(log):
 
     while RETRIEVING_DATA:
         active_app_name = NSWorkspace.sharedWorkspace(). \
-            activeApplication()['NSApplicationName']
+            frontmostApplication().localizedName()
 
         active_app_name = retrieve_web_page(active_app_name)
 
