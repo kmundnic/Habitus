@@ -27,6 +27,7 @@ setup.py
 # Test log files #
 ##################
 *.txt
+*.csv
 
 # Extras #
 ##########

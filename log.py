@@ -54,7 +54,6 @@ class Log:
     def close_log(self):
         """
         Checks if log is open and then closes the file.
-        :param log: txt file
         :return: None
         """
         if self.is_open:
