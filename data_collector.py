@@ -91,3 +91,15 @@ def stop():
     # Close log
     global RETRIEVING_DATA
     RETRIEVING_DATA = False
+
+
+def retrieve_active_app_name():
+    active_app_name = NSWorkspace.sharedWorkspace(). \
+            activeApplication()['NSApplicationName']
+
+    active_app_name = retrieve_web_page(active_app_name)
+
+    current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+    current_time = datetime.datetime.now().strftime("%H:%M:%S")
+
+    return current_date, current_time, active_app_name # debugging purposes
