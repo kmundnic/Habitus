@@ -7,7 +7,6 @@ from data_sender import DataSender
 SEND_DATA_BETWEEN_SECONDS = 900
 
 data_retriever = DataRetriever()
-data_sender = DataSender()
 
 
 # Retrieve data every 1[s]
@@ -25,6 +24,9 @@ def send_data_callback(_):
         retrieve_data_timer.start()
 
         if data_to_send:
+            # We create a different log every time to have logs with names
+            # according to date and time when information is written and sent
+            data_sender = DataSender()
             data_sender.write_data(data_to_send)
             print "Sending data..."
             data_sender.send_data()
