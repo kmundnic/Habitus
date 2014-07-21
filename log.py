@@ -5,10 +5,10 @@ import os
 
 class Log:
     def __init__(self):
-        self.directory_name = "logs"
         self.user = os.getlogin()
-        self.current_datetime = datetime.datetime.now().\
-            strftime("%Y-%m-%d %H-%M-%S")
+        self.directory_name = "logs/" + self.user
+        self.current_date = datetime.datetime.now().strftime("%Y-%m-%d")
+        self.current_time = datetime.datetime.now().strftime("%H-%M-%S")
         self.is_open = False
         self.file_name = None
         self.file = self.open_log()
@@ -37,9 +37,9 @@ class Log:
         self.create_directory()
 
         # Get current date and user login name to create file
-        self.file_name = "{}/{}-{}.csv".format(self.directory_name,
-                                               self.user,
-                                               self.current_datetime)
+        self.file_name = "{}/{}_{}.csv".format(self.directory_name,
+                                               self.current_date,
+                                               self.current_time)
 
         # Open log and set self.is_open to true
         self.file = open(self.file_name, 'w')
