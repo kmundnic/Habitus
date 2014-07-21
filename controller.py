@@ -1,10 +1,11 @@
 import rumps
+import smtplib
 from data_retriever import DataRetriever
 from data_sender import DataSender
 
 # TODO: Is it necessary to change this file into a class? Reference problems...
 
-SEND_DATA_BETWEEN_SECONDS = 900
+SEND_DATA_BETWEEN_SECONDS = 10
 
 data_retriever = DataRetriever()
 
@@ -29,7 +30,21 @@ def send_data_callback(_):
             data_sender = DataSender()
             data_sender.write_data(data_to_send)
             print "Sending data..."
-            data_sender.send_data()
+            try:
+                # Try to send data. If there is no internet connection or the
+                # connection to the server can't be established, then the
+                # data is put back to the list data_retriever.data, so it can
+                # be resent when the connection establishes.
+                # TODO: Retry sending files instead of saving info to list
+                data_sender.send_data()
+            except smtplib.socket.gaierror:
+                retrieve_data_timer.stop()
+                data_retriever.data = data_to_send + data_retriever.data
+                retrieve_data_timer.start()
+                rumps.notification("Warning:",
+                                   "Please check internet connection",
+                                   "Data has not been sent",
+                                   sound=False)
 
 retrieve_data_timer = rumps.Timer(retrieve_data_callback,
                                   interval=1)  # 1[s] interval
