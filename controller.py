@@ -36,6 +36,11 @@ def send_data_callback(_):
                 # data is put back to the list data_retriever.data, so it can
                 # be resent when the connection establishes.
                 # TODO: Retry sending files instead of saving info to list
+                # There should be a file list with the files that haven't been
+                # sent. If the connections fails, the data is already written
+                # into a file, and every time info is sent, the list of files
+                # to be sent should be popped from this list. If the connection
+                # fails, the file is appended back to the list.
                 data_sender.send_data()
             except smtplib.socket.gaierror:
                 retrieve_data_timer.stop()
