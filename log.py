@@ -7,8 +7,8 @@ class Log:
     def __init__(self):
         self.user = os.getlogin()
         self.directory_name = "logs/" + self.user
-        self.current_date = datetime.datetime.now().strftime("%Y-%m-%d")
-        self.current_time = datetime.datetime.now().strftime("%H-%M-%S")
+        self.current_date = datetime.datetime.now().strftime("%Y%m%d")
+        self.current_time = datetime.datetime.now().strftime("%H%M%S")
         self.is_open = False
         self.file_name = None
         self.file = self.open_log()
@@ -37,7 +37,7 @@ class Log:
         self.create_directory()
 
         # Get current date and user login name to create file
-        self.file_name = "{}/{}_{}.csv".format(self.directory_name,
+        self.file_name = "{}/{}T{}.csv".format(self.directory_name,
                                                self.current_date,
                                                self.current_time)
 
