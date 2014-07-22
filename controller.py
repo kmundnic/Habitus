@@ -5,7 +5,7 @@ from data_sender import DataSender
 
 # TODO: Is it necessary to change this file into a class? Reference problems...
 
-SEND_DATA_BETWEEN_SECONDS = 900
+SEND_DATA_BETWEEN_SECONDS = 3600
 
 data_retriever = DataRetriever()
 
