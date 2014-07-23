@@ -5,7 +5,7 @@ from data_sender import DataSender
 
 # TODO: Is it necessary to change this file into a class? Reference problems...
 
-SEND_DATA_BETWEEN_SECONDS = 900
+SEND_DATA_INTERVAL = 900
 
 data_retriever = DataRetriever()
 
@@ -16,7 +16,7 @@ def retrieve_data_callback(_):
 
 
 # Data is sent every 15min
-@rumps.timer(SEND_DATA_BETWEEN_SECONDS)
+@rumps.timer(SEND_DATA_INTERVAL)
 def send_data_callback(_):
     if retrieve_data_timer.is_alive():
         retrieve_data_timer.stop()
