@@ -1,14 +1,16 @@
 import rumps
 import controller
+import threading
 
 
 class Habitus(rumps.App):
 
     def __init__(self):
-        super(Habitus, self).__init__("Habitus", icon="images/icon-bw.png")
+        # super(Habitus, self).__init__("Habitus", icon="images/icon-bw.png")
+        super(Habitus, self).__init__("H")
         self.menu = ['Start', 'Stop', None]
 
-    def set_status(self):
+    def set_menu_status(self):
         """
         Changes an element in the menu for the user to know if the application
         is running or is stopped.
@@ -17,7 +19,7 @@ class Habitus(rumps.App):
         data retrieving thread is alive.
         :return: None
         """
-        if controller.retrieve_data_timer.is_alive():
+        if not controller.retriever.is_waiting.is_set():
             try:
                 del self.menu['Stopped']
             except KeyError:
@@ -32,7 +34,7 @@ class Habitus(rumps.App):
 
 
     @rumps.clicked('Start')
-    def start_data_collection_timer(self, sender):
+    def start_data_collection(self, sender):
         """
         Callback function for MenuItem 'Start'. self, sender are used as
         arguments to differentiate between this app (self) and the sender object
@@ -40,11 +42,14 @@ class Habitus(rumps.App):
         :param sender: MenuItem
         :return: None
         """
-        controller.retrieve_data_timer.start()
-        self.set_status()
+        if controller.retriever.is_alive():
+            controller.retriever.restart()
+        else:
+            controller.retriever.start()
+        self.set_menu_status()
 
     @rumps.clicked('Stop')
-    def stop_data_collection_timer(self, sender):
+    def stop_data_collection(self, sender):
         """
         Callback function for MenuItem 'Stop'. self, sender are used as
         arguments to differentiate between this app (self) and the sender object
@@ -52,6 +57,5 @@ class Habitus(rumps.App):
         :param sender: MenuItem
         :return: None
         """
-        controller.retrieve_data_timer.stop()
-        self.set_status()
-
+        controller.retriever.pause()
+        self.set_menu_status()
