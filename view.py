@@ -19,7 +19,7 @@ class Habitus(rumps.App):
         data retrieving thread is alive.
         :return: None
         """
-        if not controller.retriever.is_waiting.is_set():
+        if not controller.retriever.is_paused():
             try:
                 del self.menu['Stopped']
             except KeyError:

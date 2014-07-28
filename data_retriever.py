@@ -4,6 +4,12 @@ import time
 import threading
 import datetime
 import urlparse
+import logging
+
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.DEBUG,
+                    format='[%(asctime)s %(threadName)s] %(message)s',
+                    datefmt='%H:%M:%S')
 
 
 class DataRetriever(threading.Thread):
@@ -20,7 +26,8 @@ class DataRetriever(threading.Thread):
 
     def __init__(self, delay=1):
         threading.Thread.__init__(self)
-        self._running = False
+        self._started = False
+        self.gui_block = threading.Event()
         self.is_waiting = threading.Event()  # starts in False
         self.resume = threading.Event()
         self.delay = delay
@@ -84,26 +91,28 @@ class DataRetriever(threading.Thread):
         return data_string
 
     def stop(self):
-        self._running = False
+        self._started = False
 
     def is_paused(self):
-        return self._running
+        return not self.gui_block.is_set()
 
     def pause(self):
-        self.resume.clear()
-        self.is_waiting.set()
+        self.gui_block.clear()
 
     def restart(self):
-        self.resume.set()
-        self.is_waiting.clear()
+        self.gui_block.set()
 
     def run(self):
-        self._running = True
+        self._started = True
+        self.gui_block.set()
         self.resume.set()
-        while self._running:
-            if not self.resume.is_set():
-                self.is_waiting.set()
-                self.resume.wait()
-                self.is_waiting.clear()
-            print self.retrieve_active_app_name()
-            time.sleep(self.delay)
+        while self._started:
+            if not self.gui_block.is_set():
+                self.gui_block.wait()
+            else:
+                if not self.resume.is_set():
+                    self.is_waiting.set()
+                    self.resume.wait()
+                    self.is_waiting.clear()
+                logger.info(self.retrieve_active_app_name())
+                time.sleep(self.delay)
