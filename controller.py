@@ -1,7 +1,7 @@
 import rumps
 import smtplib
 from data_retriever import DataRetriever
-from data_sender import DataSender
+from data_handler import DataHandler
 
 # TODO: Is it necessary to change this file into a class? Reference problems...
 #
