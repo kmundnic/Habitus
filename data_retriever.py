@@ -63,9 +63,16 @@ class DataRetriever(threading.Thread):
         return self.active_app_name
 
     def retrieve_active_app_name(self):
-        self.active_app_name = NSWorkspace.sharedWorkspace(). \
-            frontmostApplication().localizedName()
+        try:
+            self.active_app_name = NSWorkspace.sharedWorkspace(). \
+                frontmostApplication().localizedName()
+        except AttributeError:
+            # If NSWorkspace.sharedWorkspace().frontmostApplication() fails,
+            # then NoneType is returned and therefore, Attribute Error is
+            # raised. If this occurs, execution shall continue.
+            self.active_app_name = None
 
+        # If self.active_app_name is None, then no web page has been visited.
         self.active_app_name = self.retrieve_web_page()
 
         current_date = datetime.datetime.now().strftime("%Y-%m-%d")
