@@ -44,8 +44,10 @@ class Habitus(rumps.App):
         """
         if controller.retriever.is_alive():
             controller.retriever.restart()
+            controller.handler.restart()
         else:
             controller.retriever.start()
+            controller.handler.start()
         self.set_menu_status()
 
     @rumps.clicked('Stop')
@@ -58,4 +60,5 @@ class Habitus(rumps.App):
         :return: None
         """
         controller.retriever.pause()
+        controller.handler.pause()
         self.set_menu_status()

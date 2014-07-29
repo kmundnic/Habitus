@@ -91,18 +91,43 @@ class DataRetriever(threading.Thread):
         return data_string
 
     def stop(self):
+        """
+        Kills the thread.
+        :return: None
+        """
         self._started = False
 
     def is_paused(self):
+        """
+        Returns the state of the thread according to the GUI options.
+        :return: None
+        """
         return not self.gui_block.is_set()
 
     def pause(self):
+        """
+        Pause the thread from the GUI.
+        :return: None
+        """
         self.gui_block.clear()
 
     def restart(self):
+        """
+        Restart the thread from the GUI.
+        :return: None
+        """
         self.gui_block.set()
 
     def run(self):
+        """
+        Run the thread created with the class DataRetriever. This function is
+        paused by the thread created by the class DataHandler, so information
+        can be sent for a particular interval of time.
+        For the algorithm used, please refer to:
+        http://stackoverflow.com/questions/8103847/pausing-two-python-threads\
+        -while-a-third-one-does-stuff-with-locks
+        :return: None
+        """
         self._started = True
         self.gui_block.set()
         self.resume.set()
