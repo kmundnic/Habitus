@@ -1,9 +1,9 @@
 import datetime
-import csv
 import os
 
 
-class Log:
+class Log():
+
     def __init__(self):
         self.user = os.getlogin()
         self.directory_name = "logs/" + self.user
