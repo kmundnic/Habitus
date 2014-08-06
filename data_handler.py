@@ -131,7 +131,7 @@ class DataHandler(threading.Thread):
             # into a file, and every time info is sent, the list of files
             # to be sent should be popped from this list. If the connection
             # fails, the file is appended back to the list.
-            self.sender.send_email(subject=self.log.user + "-threads",
+            self.sender.send_email(subject=self.log.user,
                                    text="",
                                    attach=self.log.file_name)
         except smtplib.socket.gaierror:
