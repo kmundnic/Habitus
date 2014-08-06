@@ -32,11 +32,9 @@ class DataSender():
         dictionary = {}
         try:
             json_file = open(self.file, 'r')
-            print "Opened JSON file successfully"
             try:  # Load data if there is data in the file
                 dictionary = json.load(json_file)
                 json_file.close()
-                print "Loaded JSON file successfully"
             except ValueError:  # If not, create a new dict
                 print "Create and send_info.json file with" \
                       "{'from': email_sender," \
@@ -49,7 +47,6 @@ class DataSender():
             print "Unable to open send_info.json."
             raise
 
-        print dictionary
         return dictionary
 
     def send_email(self, subject="", text="", attach=None):

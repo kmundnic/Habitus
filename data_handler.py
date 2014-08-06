@@ -25,7 +25,6 @@ class DataHandler(threading.Thread):
         self.delay = delay  # Delay for data sender timer
         self.retriever = retriever  # Copy of the data retriever thread
         self.sender = DataSender()
-        print self.sender.info
         self.log = None  # New log is created every time data is sent
 
     def run(self):
