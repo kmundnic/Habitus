@@ -33,3 +33,8 @@ setup.py
 ##########
 .idea/
 /images
+
+# Sensitive Data #
+##################
+bfg.jar
+send_info.json
