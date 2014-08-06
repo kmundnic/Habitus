@@ -33,3 +33,7 @@ setup.py
 ##########
 .idea/
 /images
+
+# Security #
+############
+send_info.json
